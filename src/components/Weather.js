@@ -1,13 +1,8 @@
 
 import React from 'react';
-
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import '../css/Weather.css'
-import { Typography } from '@material-ui/core';
+import { Typography, InputLabel,  MenuItem, FormControl, Select} from '@material-ui/core';
+import Forecast from './Forecast';
 
 //config file 
 const API_Key = "538882fc8387290c6cee83f313a6acf5";
@@ -20,6 +15,7 @@ class Weather extends React.Component{
       description: undefined,
       temperature: undefined,
       wind: undefined,
+      isLoaded:false,
       errorMessage: undefined
     }
     this.getWeather = this.getWeather.bind(this)
@@ -34,12 +30,13 @@ class Weather extends React.Component{
           
           const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_Key}`)
           const data = await response.json();
-          console.log(data)
+         
           if(response.ok){
             this.setState({
               description:data.weather[0].description,
               temperature:Math.round(data.main.temp)+'\nC',
               wind:Math.round(data.wind.speed)+'\nm/sec',
+              isLoaded: true
           })
           } else{
             // console.log('Response Code:'+response.status+'\nError Message:'+ response.statusText)
@@ -67,15 +64,19 @@ class Weather extends React.Component{
               </Select>
           </FormControl>
       </div>
-     { this.state.description && <div className="select-result">
+     { this.state.isLoaded && <div className="element-style">
         <Typography color='textPrimary' variant='body1'>Clouds</Typography>
         <Typography color='textPrimary' variant='body2'>{this.state.description}</Typography> 
       </div>
      }
-     <div className="select-result"> 
+     <div className="element-style"> 
      <Typography color='textPrimary' variant='body2'>{this.state.temperature}</Typography> 
-     {this.state.wind && <Typography color='textPrimary' variant='body2'>Wind {this.state.wind}</Typography>}
+     {this.state.isLoaded && <Typography color='textPrimary' variant='body2'>Wind {this.state.wind}</Typography>}
      </div>
+    {this.state.isLoaded && <div className="element-style">
+       <Forecast/>
+     </div>
+    }
   
 
     </div>
