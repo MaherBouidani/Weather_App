@@ -6,6 +6,7 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
 import { Typography, Button } from "@material-ui/core";
+import TableForecast from "./TableForecast";
 
 // //config file
 // const API_Key = "538882fc8387290c6cee83f313a6acf5";
@@ -131,6 +132,7 @@ class Forecast extends React.Component {
       activeTabIndex: 0,
       tabs: {},
       isLoading: false,
+      isLoadingTabs: false
     };
     this.getForecast = this.getForecast.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -162,7 +164,7 @@ class Forecast extends React.Component {
   }
 
   handleChange(event, newTabIndex) {
-    this.setState({ activeTabIndex: newTabIndex });
+    this.setState({ activeTabIndex: newTabIndex, isLoadingTabs: true });
   }
 
   render() {
@@ -192,6 +194,7 @@ class Forecast extends React.Component {
                 <TabPanel value={this.state.activeTabIndex} index={index}>
                   {/* Table Data  */}
                   {/* <BasicTable data={this.state.tabs[key].data} /> */}
+                  <TableForecast info={this.state.tabs[key]}/>
                 </TabPanel>
               );
             })}
