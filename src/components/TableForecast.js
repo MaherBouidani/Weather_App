@@ -8,8 +8,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 class TableForecast extends React.Component {
-
-
   render() {
     return (
       <TableContainer component={Paper}>
@@ -31,16 +29,16 @@ class TableForecast extends React.Component {
                   {obj.dt_txt}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {Math.round(obj.main.temp)+'\n°C'}
+                  {Math.round(obj.main.temp) + "\n°C"}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {Math.round(obj.main.temp_min)+'\n°C'}
+                  {Math.round(obj.main.temp_min) + "\n°C"}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {Math.round(obj.main.temp_max)+'\n°C'}
+                  {Math.round(obj.main.temp_max) + "\n°C"}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {Math.round(obj.wind.speed)+'\nm/sec'}
+                  {Math.round(obj.wind.speed) + "\nm/sec"}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {obj.weather[0].description}

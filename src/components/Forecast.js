@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Box, Tab, Tabs, AppBar } from "@material-ui/core";
 import TableForecast from "./TableForecast";
-import '../styles/Forecast.css';
+import "../styles/Forecast.css";
 
 const API_Key = "538882fc8387290c6cee83f313a6acf5";
 const months = [
@@ -19,7 +19,6 @@ const months = [
   "Nov",
   "Dec",
 ];
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,7 +57,7 @@ class Forecast extends React.Component {
       activeTabIndex: 0,
       tabs: {},
       isLoading: false,
-      buttonClicked: false
+      buttonClicked: false,
     };
     this.getForecast = this.getForecast.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -116,10 +115,9 @@ class Forecast extends React.Component {
           <div className="app-bar">
             <AppBar position="static" color="transparent">
               <Tabs
-                value={this.state.activeTabIndex} 
+                value={this.state.activeTabIndex}
                 onChange={this.handleChange}
                 aria-label="simple tabs example"
-                
               >
                 {Object.keys(this.state.tabs).map((key, index) => {
                   // title tab
