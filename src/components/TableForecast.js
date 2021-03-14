@@ -34,21 +34,21 @@ class TableForecast extends React.Component {
           </TableHead>
           <TableBody>
             {this.props.info.data.map((obj) => (
-              <TableRow key={obj.name}>
+              <TableRow key={obj.dt_txt}>
                 <TableCell component="th" scope="row">
                   {obj.dt_txt}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {obj.main.temp}
+                  {Math.round(obj.main.temp)+'\n°C'}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {obj.main.temp_min}
+                  {Math.round(obj.main.temp_min)+'\n°C'}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {obj.main.temp_max}
+                  {Math.round(obj.main.temp_max)+'\n°C'}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {obj.wind.speed}
+                  {Math.round(obj.wind.speed)+'\nm/sec'}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {obj.weather[0].description}

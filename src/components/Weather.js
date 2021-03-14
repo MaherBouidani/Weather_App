@@ -12,6 +12,7 @@ class Weather extends React.Component{
   constructor(){
     super()
     this.state = {
+      selected_city: undefined,
       description: undefined,
       temperature: undefined,
       wind: undefined,
@@ -24,9 +25,11 @@ class Weather extends React.Component{
 
  
     async getWeather(e){
+          this.setState({isLoaded: false})
 
           e.preventDefault();
           const city = e.target.value;
+          this.setState({selected_city: e.target.value})
           
           const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_Key}`)
           const data = await response.json();
@@ -34,7 +37,7 @@ class Weather extends React.Component{
           if(response.ok){
             this.setState({
               description:data.weather[0].description,
-              temperature:Math.round(data.main.temp)+'\nC',
+              temperature:Math.round(data.main.temp)+'\n°C',
               wind:Math.round(data.wind.speed)+'\nm/sec',
               isLoaded: true
           })
@@ -42,6 +45,7 @@ class Weather extends React.Component{
             // console.log('Response Code:'+response.status+'\nError Message:'+ response.statusText)
             this.setState({errorMessage:"Oops Sorry ! Something has gone wrong, please try again!"})
         }
+       
 
     }
   
@@ -73,10 +77,10 @@ class Weather extends React.Component{
      <Typography color='textPrimary' variant='body2'>{this.state.temperature}</Typography> 
      {this.state.isLoaded && <Typography color='textPrimary' variant='body2'>Wind {this.state.wind}</Typography>}
      </div>
-    {this.state.isLoaded && <div className="element-style">
-       <Forecast/>
-     </div>
-    }
+     {this.state.isLoaded && <div className="element-style">
+       <Forecast city={this.state.selected_city}/>
+     </div>}
+    
   
 
     </div>
