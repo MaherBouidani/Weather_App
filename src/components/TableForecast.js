@@ -8,15 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 class TableForecast extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.handle = this.handle.bind(this);
-  }
-
-  handle() {
-    console.log(this.props.info);
-  }
 
   render() {
     return (
@@ -26,10 +18,10 @@ class TableForecast extends React.Component {
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Temp</TableCell>
-              <TableCell align="right">Min Temp</TableCell>
-              <TableCell align="right">Max Temp</TableCell>
-              <TableCell align="right">Wind</TableCell>
-              <TableCell align="right">Description</TableCell>
+              <TableCell align="left">Min Temp</TableCell>
+              <TableCell align="left">Max Temp</TableCell>
+              <TableCell align="left">Wind</TableCell>
+              <TableCell align="left">Description</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

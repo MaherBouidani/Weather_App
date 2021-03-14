@@ -2,8 +2,25 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, Box, Tab, Tabs, AppBar } from "@material-ui/core";
 import TableForecast from "./TableForecast";
+import '../styles/Forecast.css';
 
 const API_Key = "538882fc8387290c6cee83f313a6acf5";
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -32,20 +49,6 @@ function a11yProps(index) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sept",
-  "Oct",
-  "Nov",
-  "Dec",
-];
 
 class Forecast extends React.Component {
   constructor(props) {
@@ -55,12 +58,11 @@ class Forecast extends React.Component {
       activeTabIndex: 0,
       tabs: {},
       isLoading: false,
-      isLoadingTabs: false,
-      clicked: false,
+      buttonClicked: false
     };
     this.getForecast = this.getForecast.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.close = this.close.bind(this);
+    this.windowClose = this.windowClose.bind(this);
   }
 
   async getForecast() {
@@ -71,37 +73,37 @@ class Forecast extends React.Component {
     this.setState({ forecastData: forecast_data.list });
     this.state.forecastData.map((data) => {
       const date = new Date(data["dt_txt"]);
-      const day = date.getDate() + "\n" + months[date.getMonth()];
+      const tabDate = date.getDate() + "\n" + months[date.getMonth()];
 
-      if (!this.state.tabs[day]) {
-        // initialization
-        this.state.tabs[day] = {
-          title: day,
+      if (!this.state.tabs[tabDate]) {
+        // tabs initialization
+        this.state.tabs[tabDate] = {
+          title: tabDate,
           data: [data],
         };
       } else {
-        // update
-        this.state.tabs[day].data.push(data);
+        // tabs update
+        this.state.tabs[tabDate].data.push(data);
       }
     });
 
-    this.setState({ isLoading: true, clicked: true });
+    this.setState({ isLoading: true, buttonClicked: true });
   }
 
   handleChange(event, newTabIndex) {
-    this.setState({ activeTabIndex: newTabIndex, isLoadingTabs: true });
+    this.setState({ activeTabIndex: newTabIndex });
   }
 
-  close() {
-    this.setState({ isLoading: false, clicked: false });
+  windowClose() {
+    this.setState({ isLoading: false, buttonClicked: false });
   }
 
   render() {
     return (
       <div>
         <div>
-          {this.state.clicked ? (
-            <Button variant="contained" onClick={this.close}>
+          {this.state.buttonClicked ? (
+            <Button variant="contained" onClick={this.windowClose}>
               Close
             </Button>
           ) : (
@@ -111,12 +113,13 @@ class Forecast extends React.Component {
           )}
         </div>
         {this.state.isLoading && (
-          <div position="static">
+          <div className="app-bar">
             <AppBar position="static" color="transparent">
               <Tabs
-                value={this.state.activeTabIndex} // index valuenpm
+                value={this.state.activeTabIndex} 
                 onChange={this.handleChange}
                 aria-label="simple tabs example"
+                
               >
                 {Object.keys(this.state.tabs).map((key, index) => {
                   // title tab
@@ -132,8 +135,6 @@ class Forecast extends React.Component {
             {Object.keys(this.state.tabs).map((key, index) => {
               return (
                 <TabPanel value={this.state.activeTabIndex} index={index}>
-                  {/* Table Data  */}
-                  {/* <BasicTable data={this.state.tabs[key].data} /> */}
                   <TableForecast info={this.state.tabs[key]} />
                 </TabPanel>
               );

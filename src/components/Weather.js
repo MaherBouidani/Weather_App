@@ -1,6 +1,5 @@
-
 import React from 'react';
-import '../css/Weather.css'
+import '../styles/Weather.css';
 import { Typography, InputLabel,  MenuItem, FormControl, Select} from '@material-ui/core';
 import Forecast from './Forecast';
 
@@ -10,7 +9,7 @@ const API_Key = "538882fc8387290c6cee83f313a6acf5";
 class Weather extends React.Component{
 
   constructor(){
-    super()
+    super();
     this.state = {
       selected_city: undefined,
       description: undefined,
@@ -18,20 +17,20 @@ class Weather extends React.Component{
       wind: undefined,
       isLoaded:false,
       errorMessage: undefined
-    }
-    this.getWeather = this.getWeather.bind(this)
+    };
+    this.getWeather = this.getWeather.bind(this);
   }
 
 
  
     async getWeather(e){
-          this.setState({isLoaded: false})
+          this.setState({isLoaded: false});
 
           e.preventDefault();
           const city = e.target.value;
-          this.setState({selected_city: e.target.value})
+          this.setState({selected_city: e.target.value});
           
-          const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_Key}`)
+          const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_Key}`);
           const data = await response.json();
          
           if(response.ok){
@@ -40,7 +39,7 @@ class Weather extends React.Component{
               temperature:Math.round(data.main.temp)+'\n°C',
               wind:Math.round(data.wind.speed)+'\nm/sec',
               isLoaded: true
-          })
+          });
           } else{
             // console.log('Response Code:'+response.status+'\nError Message:'+ response.statusText)
             this.setState({errorMessage:"Oops Sorry ! Something has gone wrong, please try again!"})
